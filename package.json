@@ -9,6 +9,7 @@
     "compression": "^1.6.2",
     "config": "^1.21.0",
     "cors": "^2.7.1",
+    "credential": "^1.0.0",
     "express": "^4.13.4",
     "mongoose": "^4.5.1",
     "passport": "^0.3.2",
@@ -20,7 +21,8 @@
     "eslint": "^2.11.1",
     "istanbul": "^0.4.3",
     "mocha": "^2.5.3",
-    "superagent": "^2.0.0"
+    "superagent": "^2.0.0",
+    "surge": "^0.18.0"
   },
   "scripts": {
     "coverage": "export NODE_ENV=test && node_modules/.bin/istanbul cover -- ./node_modules/.bin/_mocha test/**/*.js",

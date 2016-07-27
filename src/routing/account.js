@@ -2,10 +2,13 @@
 
 var auth = require('../auth/auth');
 
-module.exports = (app) => {
 
-  app.post('/v1/signup', (req, res, next) => {
-      res.send({'uno': 'due'});
-      return next();
-    })
+module.exports = (app) => {
+  let account = require('../v1/account')
+  /*
+   *
+   */
+  app.post('/v1/account/signup', account.signup);
+
+
 }

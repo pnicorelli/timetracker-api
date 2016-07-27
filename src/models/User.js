@@ -9,21 +9,30 @@ var User = new Schema({
         unique: true,
         required: true
     },
-    providerId: {
-        type: String
+    password: {
+        type: String,
+        required: true
     },
-    provider: {
-        type: String
-    },
-    created: {
+    createdAt: {
         type: Date,
         default: Date.now
     }
 });
 
-User.virtual('userId')
-    .get(function () {
-        return this.id;
-    });
+User.pre('save', function(next) {
+  let user = this;
+  if( !user.password ){
+    return next({'message': 'invalid password'});
+  }
+  let credential = require('credential');
+  let pw = credential();
+  pw.hash(user.password, function (err, hash) {
+    if (err){
+       throw err;
+     }
+    user.password = hash;
+    return next();
+  });
+});
 
 module.exports = mongoose.model('User', User);
