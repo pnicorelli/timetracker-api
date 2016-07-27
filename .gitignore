@@ -1,0 +1,6 @@
+node_modules
+config/*
+!config/development.json
+!config/test.json
+npm-debug.log
+coverage

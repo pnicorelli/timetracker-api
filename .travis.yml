@@ -1,0 +1,15 @@
+
+language: node_js
+node_js:
+  - "4.0.0"
+services:
+  - mongodb
+
+after_success:
+  - npm run-script coverage
+
+deploy:
+  skip_cleanup: true
+  provider: surge
+  project: ./coverage/lcov-report/
+  domain: timetracker-api-coverage.surge.sh
