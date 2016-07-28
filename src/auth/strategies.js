@@ -8,38 +8,38 @@ var AccessToken       = require('../models/AccessToken');
 
 
 passport.use(new BearerStrategy(
-    function(accessToken, done) {
+    function(accessToken, next) {
         AccessToken.findOne({ token: accessToken }).then( token => {
 
             if (!token){
-              return done(null, false);
+              return next(null, false);
             }
 
             User.findById(token.userId).then( user => {
                 if (!user){
-                  return done(null, false, { message: 'Unknown user' });
+                  return next(null, false, { message: 'Unknown user' });
                 }
 
                 var info = { scope: '*' }
-                return done(null, user, info);
+                return next(null, user, info);
             });
         });
     }
 ));
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
+  function(username, password, next) {
     User.findOne({ username: username }, function (err, user) {
       if (err) {
-        return done(err);
+        return next(err);
       }
       if (!user) {
-        return done(null, false);
+        return next(null, false);
       }
       if (!user.verifyPassword(password)) {
-        return done(null, false);
+        return next(null, false);
       }
-      return done(null, user);
+      return next(null, user);
     });
   }
 ));

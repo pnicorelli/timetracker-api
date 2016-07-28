@@ -19,6 +19,16 @@ var User = new Schema({
     }
 });
 
+User.methods.checkPassword = (storedPassword, password, callback )=>{
+  let user = this;
+  let credential = require('credential');
+  let pw = credential();
+
+  pw.verify(storedPassword, password, function (err, isValid) {
+    callback(err, isValid);
+  });
+}
+
 User.pre('save', function(next) {
   let user = this;
   if( !user.password ){

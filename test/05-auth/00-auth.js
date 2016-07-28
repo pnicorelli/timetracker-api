@@ -13,7 +13,7 @@ var user, token, invalidToken;
 
 describe('User shoud be authenticated', () => {
 
-  before( done => {
+  before( next => {
     var testuser = new User({
       username: 'test',
       password: 'pippuzzomio'
@@ -37,25 +37,25 @@ describe('User shoud be authenticated', () => {
           invalidToken = t2;
         });
 
-        return done();
+        return next();
       })
     })
   });
 
 
 
-  it('should reject a call without auth', (done) => {
+  it('should reject a call without auth', (next) => {
     request
       .get('localhost:3000/v1/profile')
       .end(function(err, res){
         res.statusCode.should.equal(401);
         res.body.should.be.empty;
         res.text.should.equal('Unauthorized');
-        return done();
+        return next();
       });
   });
 
-  it('should accept a call with valid auth', (done) => {
+  it('should accept a call with valid auth', (next) => {
     request
       .get('localhost:3000/v1/profile')
       .set('Authorization', 'Bearer ' + token.token)
@@ -63,11 +63,11 @@ describe('User shoud be authenticated', () => {
         res.statusCode.should.equal(200);
         res.body.profile.username.should.equal(user.username);
         res.body.profile._id.should.be.not.empty;
-        return done();
+        return next();
       });
   });
 
-  it('should reject a call with unvalid auth', (done) => {
+  it('should reject a call with unvalid auth', (next) => {
     request
       .get('localhost:3000/v1/profile')
       .set('Authorization', 'Bearer INVALIDTOKEN')
@@ -75,11 +75,11 @@ describe('User shoud be authenticated', () => {
         res.statusCode.should.equal(401);
         res.body.should.be.empty;
         res.text.should.equal('Unauthorized');
-        return done();
+        return next();
       });
   });
 
-  it('should reject a call with valid token but invalid user', (done) => {
+  it('should reject a call with valid token but invalid user', (next) => {
     request
       .get('localhost:3000/v1/profile')
       .set('Authorization', 'Bearer '+invalidToken.token)
@@ -87,17 +87,17 @@ describe('User shoud be authenticated', () => {
         res.statusCode.should.equal(401);
         res.body.should.be.empty;
         res.text.should.equal('Unauthorized');
-        return done();
+        return next();
       });
   });
 
-  after( done => {
+  after( next => {
     Promise.all([
       User.remove({_id: user._id}),
       AccessToken.remove({userId: user._id}),
       AccessToken.remove({token: invalidToken.token})
     ]).then( result => {
-      return done();
+      return next();
     });
   });
 })

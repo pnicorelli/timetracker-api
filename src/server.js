@@ -55,11 +55,11 @@ var Server = {
     });
   },
 
-  close( done ){
+  close( next ){
     console.log(`${pkg.name}-v${pkg.version} is shutdown!`);
     db.close();
     this.server.close();
-    return done();
+    return next();
   }
 
 }

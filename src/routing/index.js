@@ -7,13 +7,17 @@ var auth = require('../auth/auth');
 var account = require('./account');
 
 module.exports = (app) => {
-  app.get('/', (req, res, done) => {
+  app.get('/', (req, res, next) => {
     res.json({ 'app': pkg.name, 'ver': pkg.version});
-    return done();
+    return next();
   });
-  app.get('/v1/profile', auth.bearer(), (req, res, done) => {
-    res.json({ 'profile': req.user });
-    return done();
+  app.get('/v1/profile', auth.bearer(), (req, res, next) => {
+    let payload = {
+      _id: req.user._id,
+      username: req.user.username
+    }
+    res.json({ 'profile': payload });
+    return next();
   });
 
   account(app);

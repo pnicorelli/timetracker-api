@@ -14,14 +14,14 @@ var username, token;
 
 describe('Someone can become a user', () => {
 
-  before( done => {
+  before( next => {
     username = 'test05-10-auth';
-    return done();
+    return next();
   });
 
 
 
-  it('should not signup with uncomplete fields #1', (done) => {
+  it('should not signup with uncomplete fields #1', (next) => {
     request
       .post('localhost:3000/v1/account/signup')
       .send({
@@ -30,11 +30,11 @@ describe('Someone can become a user', () => {
       .end(function(err, res){
         res.statusCode.should.equal(400);
         res.body.message.should.not.be.empty;
-        return done();
+        return next();
       });
   });
 
-  it('should not signup with uncomplete fields #2', (done) => {
+  it('should not signup with uncomplete fields #2', (next) => {
     request
       .post('localhost:3000/v1/account/signup')
       .send({
@@ -43,11 +43,11 @@ describe('Someone can become a user', () => {
       .end(function(err, res){
         res.statusCode.should.equal(400);
         res.body.message.should.not.be.empty;
-        return done();
+        return next();
       });
   });
 
-  it('should signup a valid user', (done) => {
+  it('should signup a valid user', (next) => {
     request
       .post('localhost:3000/v1/account/signup')
       .send({
@@ -58,11 +58,11 @@ describe('Someone can become a user', () => {
         res.statusCode.should.equal(201);
         res.body.token.should.not.be.empty;
         token = res.body.token;
-        return done();
+        return next();
       });
   });
 
-  it('token should be valid', (done) => {
+  it('token should be valid', (next) => {
     request
       .get('localhost:3000/v1/profile')
       .set('Authorization', 'Bearer ' + token)
@@ -70,16 +70,16 @@ describe('Someone can become a user', () => {
         res.statusCode.should.equal(200);
         res.body.profile.username.should.equal(username);
         res.body.profile._id.should.be.not.empty;
-        return done();
+        return next();
       });
   });
 
-  after( done => {
+  after( next => {
     Promise.all([
       User.remove({username: username}),
       AccessToken.remove({token: token})
     ]).then( result => {
-      return done();
+      return next();
     });
   });
 })

@@ -10,23 +10,23 @@ var pkg = require('../../package.json');
 
 describe('App should work', () => {
 
-  before( done => {
+  before( next => {
     server.start();
-    return done();
+    return next();
   }
 
   );
-  it('should listen on port 3000', (done) => {
+  it('should listen on port 3000', (next) => {
     request
       .get('localhost:3000/')
       .end(function(err, res){
           res.body.app.should.equal(pkg.name)
           res.body.ver.should.equal(pkg.version)
-          return done();
+          return next();
       });
   });
 
-  after( done => {
-    return done();
+  after( next => {
+    return next();
   });
 })
