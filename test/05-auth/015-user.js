@@ -13,38 +13,38 @@ var userId;
 
 describe('Security matters!', () => {
 
-  before( done => {
+  before( next => {
     var newUser = new User({
       username: 'user-05-015',
       password: 'mylittlesecret'
     })
     newUser.save( (err, u)=>{
-      expect(err).to.not.exists;
-      expect(u).to.exists;
+      expect(err).to.not.exist;
+      expect(u).to.exist;
       userId = u._id;
-      return done();
+      return next();
     })
   });
 
-  it('should encrypt password on User.save()', (done) => {
+  it('should encrypt password on User.save()', (next) => {
     User.findOne({ _id: userId}).exec( (err, u)=>{
-      expect(err).to.not.exists;
-      expect(u).to.exists;
+      expect(err).to.not.exist;
+      expect(u).to.exist;
       let credential = require('credential');
       let pw = credential();
       pw.verify(u.password, 'mylittlesecret', function (err, isValid) {
-        expect(err).to.not.exists;
+        expect(err).to.not.exist;
         isValid.should.be.true;
-        return done();
+        return next();
       });
     });
   });
 
-  after( done => {
+  after( next => {
     Promise.all([
       User.remove({_id: userId})
     ]).then( result => {
-      return done();
+      return next();
     });
   });
 });

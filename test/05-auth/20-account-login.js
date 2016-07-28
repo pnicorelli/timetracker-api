@@ -13,9 +13,9 @@ var AccessToken = require('../../src/models/AccessToken')
 
 var user, username, password, token;
 
-describe('As a user I can log-in', () => {
+describe('As a user I want log-in', () => {
 
-  before( done => {
+  before( next => {
     username = 'user05-020';
     password = 'myverysecret';
 
@@ -25,14 +25,14 @@ describe('As a user I can log-in', () => {
     })
     testuser.save().then( (err, u) => {
       user = u;
-      return done();
+      return next();
     })
 
   });
 
 
 
-  it('should login a valid user', (done) => {
+  it('should login with an valid user', (next) => {
     request
     .post('localhost:3000/v1/account/login')
     .send({
@@ -40,14 +40,14 @@ describe('As a user I can log-in', () => {
       password: password
     })
     .end(function(err, res){
-      res.statusCode.should.equal(200);
+      res.statusCode.should.equal(201);
       res.body.token.should.not.be.empty;
       token = res.body.token;
-      return done();
+      return next();
     });
   });
 
-  it('should not login a invalid user', (done) => {
+  it('should not login with an invalid user', (next) => {
     request
     .post('localhost:3000/v1/account/login')
     .send({
@@ -55,31 +55,32 @@ describe('As a user I can log-in', () => {
       password: 'ILoveWolwes'
     })
     .end(function(err, res){
-      res.statusCode.should.equal(400);
-      expect(res.body.message).to.exists;
-      return done();
+      res.statusCode.should.equal(404);
+      expect(res.body.message).to.exist;
+      return next();
     });
   });
 
-  it('should accept a call with valid auth', (done) => {
+  it('should accept a call with valid auth', (next) => {
     request
     .get('localhost:3000/v1/profile')
     .set('Authorization', 'Bearer ' + token)
     .end(function(err, res){
       res.statusCode.should.equal(200);
-      res.body.profile.username.should.equal(user.username);
+      res.body.profile.username.should.equal(username);
       res.body.profile._id.should.be.not.empty;
-      return done();
+      expect(res.body.profile.password).to.not.exist;
+      return next();
     });
   });
 
 
-  after( done => {
+  after( next => {
     Promise.all([
       User.remove({username: username}),
       AccessToken.remove({token: token})
     ]).then( result => {
-      return done();
+      return next();
     });
   });
 })
