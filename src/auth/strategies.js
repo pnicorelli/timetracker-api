@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 var passport          = require('passport');
 var BearerStrategy    = require('passport-http-bearer').Strategy;
 var LocalStrategy     = require('passport-local').Strategy;
-var User              = require('../models/User')
+var User              = require('../models/User');
 var AccessToken       = require('../models/AccessToken');
 
 
@@ -20,7 +20,7 @@ passport.use(new BearerStrategy(
                   return next(null, false, { message: 'Unknown user' });
                 }
 
-                var info = { scope: '*' }
+                var info = { scope: '*' };
                 return next(null, user, info);
             });
         });

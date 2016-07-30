@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "argon2-ffi": "^1.0.0",
     "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
     "compression": "^1.6.2",
     "config": "^1.21.0",
     "cors": "^2.7.1",
-    "credential": "^1.0.0",
     "express": "^4.13.4",
     "mongoose": "^4.5.1",
+    "mongoose-pagination": "^1.0.0",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0"

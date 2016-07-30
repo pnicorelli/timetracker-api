@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var chai = require('chai');
 chai.should();
@@ -7,8 +7,8 @@ var expect = require('chai').expect;
 var request = require('superagent');
 var Promise = require('bluebird');
 
-var User = require('../../src/models/User')
-var AccessToken = require('../../src/models/AccessToken')
+var User = require('../../src/models/User');
+var AccessToken = require('../../src/models/AccessToken');
 
 var username, token;
 
@@ -23,7 +23,7 @@ describe('Someone can become a user', () => {
 
   it('should not signup with uncomplete fields #1', (next) => {
     request
-      .post('localhost:3000/v1/account/signup')
+      .post('localhost:3000/v1/accounts/signup')
       .send({
         username: username
       })
@@ -36,7 +36,7 @@ describe('Someone can become a user', () => {
 
   it('should not signup with uncomplete fields #2', (next) => {
     request
-      .post('localhost:3000/v1/account/signup')
+      .post('localhost:3000/v1/accounts/signup')
       .send({
         password: 'somesecret'
       })
@@ -49,7 +49,7 @@ describe('Someone can become a user', () => {
 
   it('should signup a valid user', (next) => {
     request
-      .post('localhost:3000/v1/account/signup')
+      .post('localhost:3000/v1/accounts/signup')
       .send({
         username: username,
         password: 'somesecret'
@@ -82,4 +82,4 @@ describe('Someone can become a user', () => {
       return next();
     });
   });
-})
+});

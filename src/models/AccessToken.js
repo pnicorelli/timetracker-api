@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -28,7 +28,7 @@ AccessToken.methods.create = function (userId, callback){
   let t = this;
   t.token = getRandomToken();
   t.userId = userId;
-  
+
   t.save((err, newToken) =>{
     if (err) {
       return callback(err);

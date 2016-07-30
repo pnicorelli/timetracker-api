@@ -1,14 +1,14 @@
-'use strict'
+'use strict';
 
-var User = require('../models/User');
-var AccessToken = require('../models/AccessToken');
+var User = require('../../models/User');
+var AccessToken = require('../../models/AccessToken');
 
-var account = {
+var accounts = {
 
   /*
   * Express Middleware - Signup a new user
   *
-  * POST /v1/account/signup
+  * POST /v1/accounts/signup
   */
   'signup': (req, res, next) => {
     let username = (req.body.username)?req.body.username:false;
@@ -41,7 +41,7 @@ var account = {
         res.status(201).json({ 'token': token});
         return next();
       });
-    })
+    });
   },
 
 
@@ -49,7 +49,7 @@ var account = {
   /*
    * Express Middleware - DESCRIPTION
    *
-   * POST /v1/account/login
+   * POST /v1/accounts/login
    */
    'login': (req, res, next) => {
      let username = (req.body.username)?req.body.username:'';
@@ -66,11 +66,7 @@ var account = {
           return next();
         }
 
-        u.checkPassword(u.password, password, (err, result)=>{
-          if( err ){
-            res.status(400).json({ 'message': err.toString() });
-            return next();
-          }
+        u.checkPassword(u.password, password, (result)=>{
 
           if( result ){
             let at = new AccessToken();
@@ -86,12 +82,12 @@ var account = {
             res.status(404).json({ 'message': 'user not found' });
             return next();
           }
-        })
+        });
       });
    }
 
 
-}
+};
 
 
-module.exports = account;
+module.exports = accounts;

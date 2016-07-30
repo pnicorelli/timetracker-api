@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
 var chai = require('chai');
 chai.should();
 var request = require('superagent');
 var Promise = require('bluebird');
 
-var User = require('../../src/models/User')
-var AccessToken = require('../../src/models/AccessToken')
+var User = require('../../src/models/User');
+var AccessToken = require('../../src/models/AccessToken');
 // var server = require('../../src/server')
 
 var user, token, invalidToken;
@@ -17,7 +17,7 @@ describe('User shoud be authenticated', () => {
     var testuser = new User({
       username: 'test',
       password: 'pippuzzomio'
-    })
+    });
     testuser.save().then( u => {
 
       user = u;
@@ -38,8 +38,8 @@ describe('User shoud be authenticated', () => {
         });
 
         return next();
-      })
-    })
+      });
+    });
   });
 
 
@@ -100,4 +100,4 @@ describe('User shoud be authenticated', () => {
       return next();
     });
   });
-})
+});

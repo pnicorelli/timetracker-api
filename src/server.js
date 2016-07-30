@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var express = require('express');
 var passport = require('passport');
@@ -6,7 +6,7 @@ var pkg = require('../package.json');
 var bodyParser = require('body-parser');
 var config = require('config');
 var compress = require('compression');
-var cors = require('cors')
+var cors = require('cors');
 var strategies = require('./auth/strategies');
 var routing = require('./routing');
 
@@ -30,7 +30,7 @@ var Server = {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
-    app.use(passport.initialize())
+    app.use(passport.initialize());
 
     routing(app);
 
@@ -38,7 +38,7 @@ var Server = {
     let port = process.env.OPENSHIFT_NODEJS_PORT || env.port;
     let ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
     this.server = app.listen(port, ip, function() {
-      process.title = pkg.name
+      process.title = pkg.name;
       var path = require('path');
       var appDir = path.dirname(require.main.filename);
       //TODO use loglevel
@@ -62,7 +62,7 @@ var Server = {
     return next();
   }
 
-}
+};
 
 
 module.exports = Server;
