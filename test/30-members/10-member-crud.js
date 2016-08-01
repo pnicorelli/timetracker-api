@@ -82,48 +82,6 @@ describe('User should update and delete a member', () => {
     });
   });
 
-  //
-  // it('as a second user I should create a new member', function(next){
-  //   request
-  //   .post('localhost:3000/v1/accounts/members')
-  //   .set('Authorization', 'Bearer ' + sigmund.token)
-  //   .send({
-  //     member: {
-  //       first: 'test-name-sigmund',
-  //       last: 'test-surname-sigmund'
-  //     }
-  //   })
-  //   .end(function(err, res){
-  //     res.statusCode.should.equal(201);
-  //     res.body.member.first.should.equal('test-name-sigmund');
-  //     return next();
-  //   });
-  // });
-  //
-  // it('as a user I should list my members', function(next){
-  //   request
-  //   .get('localhost:3000/v1/accounts/members')
-  //   .set('Authorization', 'Bearer ' + carl.token)
-  //   .end(function(err, res){
-  //     res.statusCode.should.equal(200);
-  //     res.body.total.should.equal(1);
-  //     res.body.data[0].first.should.equal('test-name-carl');
-  //     return next();
-  //   });
-  // });
-  //
-  // it('as a second user I should list my members', function(next){
-  //   request
-  //   .get('localhost:3000/v1/accounts/members')
-  //   .set('Authorization', 'Bearer ' + sigmund.token)
-  //   .end(function(err, res){
-  //     res.statusCode.should.equal(200);
-  //     res.body.total.should.equal(1);
-  //     res.body.data[0].first.should.equal('test-name-sigmund');
-  //     return next();
-  //   });
-  // });
-
 
   after( next => {
     Promise.all([

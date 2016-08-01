@@ -8,6 +8,7 @@ module.exports = (app) => {
 
   app.post('/v1/accounts/signup', accounts.signup);
   app.post('/v1/accounts/login', accounts.login);
+  // app.post('/v1/accounts/login', passport.local() );
 
   let members = require('../v1/accounts/members');
 

@@ -28,12 +28,14 @@ var accounts = {
     });
     newUser.save( (err, u)=>{
 
+      /* istanbul ignore if */
       if( err ){
         res.status(400).json({ 'message': err.toString() });
         return next();
       }
       let at = new AccessToken();
       at.create(u._id, (err, token)=>{
+        /* istanbul ignore if */
         if( err ){
           res.status(400).json({ 'message': err.toString() });
           return next();
@@ -47,44 +49,46 @@ var accounts = {
 
 
   /*
-   * Express Middleware - DESCRIPTION
-   *
-   * POST /v1/accounts/login
-   */
-   'login': (req, res, next) => {
-     let username = (req.body.username)?req.body.username:'';
-     let password = (req.body.password)?req.body.password:'';
+  * Express Middleware - DESCRIPTION
+  *
+  * POST /v1/accounts/login
+  */
+  'login': (req, res, next) => {
+    let username = (req.body.username)?req.body.username:'';
+    let password = (req.body.password)?req.body.password:'';
 
-     User.findOne({username: username})
-      .exec( (err, u) => {
-        if( err ){
-          res.status(400).json({ 'message': err.toString() });
-          return next();
-        }
-        if( !u ){
+    User.findOne({username: username})
+    .exec( (err, u) => {
+      /* istanbul ignore if */
+      if( err ){
+        res.status(400).json({ 'message': err.toString() });
+        return next();
+      }
+      if( !u ){
+        res.status(404).json({ 'message': 'user not found' });
+        return next();
+      }
+
+      u.checkPassword(u.password, password, (result)=>{
+
+        if( result ){
+          let at = new AccessToken();
+          at.create(u._id, (err, token)=>{
+            /* istanbul ignore if */
+            if( err ){
+              res.status(400).json({ 'message': err.toString() });
+              return next();
+            }
+            res.status(201).json({ 'token': token});
+            return next();
+          });
+        } else {
           res.status(404).json({ 'message': 'user not found' });
           return next();
         }
-
-        u.checkPassword(u.password, password, (result)=>{
-
-          if( result ){
-            let at = new AccessToken();
-            at.create(u._id, (err, token)=>{
-              if( err ){
-                res.status(400).json({ 'message': err.toString() });
-                return next();
-              }
-              res.status(201).json({ 'token': token});
-              return next();
-            });
-          } else {
-            res.status(404).json({ 'message': 'user not found' });
-            return next();
-          }
-        });
       });
-   }
+    });
+  }
 
 
 };

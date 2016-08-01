@@ -12,7 +12,6 @@
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "mongoose": "^4.5.1",
-    "mongoose-pagination": "^1.0.0",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0"

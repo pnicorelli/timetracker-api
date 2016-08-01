@@ -31,11 +31,13 @@ testTools.createUserAccess = function( username ){
       password: 'secret'
     });
     user.save( (err, u) => {
+      /* istanbul ignore if */
       if( err ){
         return reject(err);
       }
       let at = new AccessToken();
       at.create(u._id, (err, token)=>{
+        /* istanbul ignore if */
         if( err ){
           return reject(err);
         }

@@ -27,19 +27,19 @@ passport.use(new BearerStrategy(
     }
 ));
 
-passport.use(new LocalStrategy(
-  function(username, password, next) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(null, false);
-      }
-      if (!user.verifyPassword(password)) {
-        return next(null, false);
-      }
-      return next(null, user);
-    });
-  }
-));
+// passport.use(new LocalStrategy(
+//   function(username, password, next) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) {
+//         return next(err);
+//       }
+//       if (!user) {
+//         return next(null, false);
+//       }
+//       if (!user.verifyPassword(password)) {
+//         return next(null, false);
+//       }
+//       return next(null, user);
+//     });
+//   }
+// ));
