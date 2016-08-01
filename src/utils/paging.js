@@ -3,12 +3,12 @@
 var paging = {
 
   'getParams': (request)=>{
-    let page = ( typeof request.params.page === 'undefined')
+    let page = ( typeof request.query.page === 'undefined')
       ? 1
-      : request.params.page;
-    let perPage = ( typeof request.params.per_page === 'undefined')
+      : request.query.page;
+    let perPage = ( typeof request.query.perPage === 'undefined')
       ? 20
-      : request.params.per_page;
+      : request.query.perPage;
 
     let result = {
       page: page,

@@ -26,7 +26,7 @@ mongoose.Query.prototype.paginate = function paginate (page, limit, cb) {
             data: docs,
             total: total,
             page: page,
-            per_page: limit
+            perPage: limit
           };
           if(err) {
             cb(err, null, null);

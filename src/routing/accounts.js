@@ -13,9 +13,9 @@ module.exports = (app) => {
 
   app.get('/v1/accounts/members', auth.bearer(), members.getAll);
   app.post('/v1/accounts/members', auth.bearer(), members.create);
-  //
-  // app.get('/v1/accounts/:userId/members/:memberId', member.getOne);
-  // app.put('/v1/accounts/:userId/members/:memberId', member.updateOne);
-  // app.del('/v1/accounts/:userId/members/:memberId', member.deleteOne);
+
+  app.get('/v1/accounts/members/:memberId', auth.bearer(), members.getOne);
+  app.put('/v1/accounts/members/:memberId', auth.bearer(), members.updateOne);
+  app.delete('/v1/accounts/members/:memberId', auth.bearer(), members.deleteOne);
 
 };

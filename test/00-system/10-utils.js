@@ -12,7 +12,7 @@ var AccessToken = require('../../src/models/AccessToken');
 var testTools = require('../../src/utils/test-tools');
 
 var user_carl    = 'carlgustav',
-    user_anon    = '00-system.10-utils.js', //thats the default username based on this scriptname
+    user_anon,   // should be autoassigned
     token_carl,
     token_anon;
 
@@ -25,8 +25,10 @@ describe('Tools, Utility and other stuff', () => {
     ]).then( (result) =>{
       expect( result[0].token ).to.be.a('string');
       expect( result[1].token ).to.be.a('string');
+      expect( result[1].username ).to.be.a('string');
       token_carl = result[0].token;
       token_anon = result[1].token;
+      user_anon = result[1].username;
       return result;
     }).then( result => {
       Promise.all([
@@ -47,7 +49,7 @@ describe('Tools, Utility and other stuff', () => {
     it('should remove a user access', (next) => {
       Promise.all([
         testTools.removeUserAccess(user_carl),
-        testTools.removeUserAccess()
+        testTools.removeUserAccess(user_anon)
       ]).then( (result) =>{
         Promise.all([
           AccessToken.findOne({token: token_carl}).populate('userId').lean().exec(),

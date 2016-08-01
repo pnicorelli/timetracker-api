@@ -10,7 +10,7 @@ var Member = require('../../src/models/Member');
 
 var carl, sigmund;
 
-describe('User should CRUD members #1', () => {
+describe('User should create and read members', () => {
 
   before( next => {
     Promise.all([
