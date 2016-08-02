@@ -23,7 +23,6 @@ var Server = {
 
 
     db.connect();
-    app.options('*', cors());
     app.use(cors());
 
     app.use(compress());
@@ -32,6 +31,7 @@ var Server = {
 
     app.use(passport.initialize());
 
+    app.options('*', cors());
     routing(app);
 
     var env = config.get('env');
