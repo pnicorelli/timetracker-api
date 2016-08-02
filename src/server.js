@@ -23,7 +23,7 @@ var Server = {
 
 
     db.connect();
-    app.use(cors());
+    // app.use(cors());
 
     app.use(compress());
     app.use(bodyParser.urlencoded({ extended: false }));
