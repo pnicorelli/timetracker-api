@@ -23,7 +23,7 @@ var Server = {
 
 
     db.connect();
-
+    app.options('*', cors());
     app.use(cors());
 
     app.use(compress());
