@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var chai = require('chai');
 chai.should();
@@ -7,8 +7,8 @@ var expect = require('chai').expect;
 var request = require('superagent');
 var Promise = require('bluebird');
 
-var User = require('../../src/models/User')
-var AccessToken = require('../../src/models/AccessToken')
+var User = require('../../src/models/User');
+var AccessToken = require('../../src/models/AccessToken');
 // var server = require('../../src/server')
 
 var user, username, password, token;
@@ -22,11 +22,11 @@ describe('As a user I want log-in', () => {
     var testuser = new User({
       username: username,
       password: password
-    })
+    });
     testuser.save().then( (err, u) => {
       user = u;
       return next();
-    })
+    });
 
   });
 
@@ -34,7 +34,7 @@ describe('As a user I want log-in', () => {
 
   it('should login with an valid user', (next) => {
     request
-    .post('localhost:3000/v1/account/login')
+    .post('localhost:3000/v1/accounts/login')
     .send({
       username: username,
       password: password
@@ -49,7 +49,7 @@ describe('As a user I want log-in', () => {
 
   it('should not login with an invalid user', (next) => {
     request
-    .post('localhost:3000/v1/account/login')
+    .post('localhost:3000/v1/accounts/login')
     .send({
       username: 'littleredhood',
       password: 'ILoveWolwes'
@@ -83,4 +83,4 @@ describe('As a user I want log-in', () => {
       return next();
     });
   });
-})
+});

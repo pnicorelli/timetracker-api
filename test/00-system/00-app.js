@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var chai = require('chai');
 chai.should();
@@ -20,8 +20,8 @@ describe('App should work', () => {
     request
       .get('localhost:3000/')
       .end(function(err, res){
-          res.body.app.should.equal(pkg.name)
-          res.body.ver.should.equal(pkg.version)
+          res.body.app.should.equal(pkg.name);
+          res.body.ver.should.equal(pkg.version);
           return next();
       });
   });
@@ -29,4 +29,4 @@ describe('App should work', () => {
   after( next => {
     return next();
   });
-})
+});

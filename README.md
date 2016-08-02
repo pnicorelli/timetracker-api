@@ -1,5 +1,7 @@
 # Timetracker
 
+[ ![Codeship Status for pnicorelli/timetracker-api](https://codeship.com/projects/2e3a42a0-363a-0134-e928-5a50b26db089/status?branch=master)](https://codeship.com/projects/165467)
+
 API Server for time-tracking dirty jobs
 
 ### Utils
@@ -20,7 +22,7 @@ API Server for time-tracking dirty jobs
 
 ### Docs
 
-...
+On [Bitbucket wiki](https://bitbucket.org/pnicorelli/timetracker-api/wiki/Home)
 
 ### Development
 

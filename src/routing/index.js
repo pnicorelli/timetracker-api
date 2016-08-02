@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 var passport = require('passport');
 var pkg = require('../../package.json');
 var auth = require('../auth/auth');
 
-var account = require('./account');
+var accounts = require('./accounts');
 
 module.exports = (app) => {
   app.get('/', (req, res, next) => {
@@ -15,10 +15,11 @@ module.exports = (app) => {
     let payload = {
       _id: req.user._id,
       username: req.user.username
-    }
+    };
     res.json({ 'profile': payload });
     return next();
   });
 
-  account(app);
-}
+  accounts(app);
+
+};
