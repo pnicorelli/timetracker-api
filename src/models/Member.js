@@ -18,6 +18,10 @@ var Member = new Schema({
       type: String,
       default: null
     },
+    email: {
+      type: String,
+      default: null
+    },
     labels: {
       type: [String],
       default: []

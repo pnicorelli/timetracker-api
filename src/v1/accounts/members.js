@@ -13,7 +13,7 @@ var members = {
   'getAll': (req, res, next) => {
     let pagingParams = paging.getParams(req);
     Member.find({userId: req.user._id})
-    .select('first last labels')
+    .select('first last email labels')
     .paginate(pagingParams.page, pagingParams.perPage, (err, result)=>{
       /* istanbul ignore if */
       if( err ){
@@ -45,6 +45,8 @@ var members = {
         return next();
       }
       let payload = {
+        _id: m._id,
+        email: m.email,
         first: m.first,
         last: m.last
       };
@@ -60,7 +62,7 @@ var members = {
   */
   'getOne': (req, res, next) => {
     Member.findOne({userId: req.user._id, _id: req.params.memberId})
-    .select('first last labels')
+    .select('first last email labels')
     .exec( (err, member)=>{
       /* istanbul ignore if */
       if( err ){
@@ -91,7 +93,7 @@ var members = {
         return next();
       }
 
-      let updateFields = ['first', 'last']; //user can edit only this fields
+      let updateFields = ['first', 'last', 'email']; //user can edit only this fields
       for(let key in req.body.member){
         if( updateFields.indexOf(key) > -1){
           member[key] = req.body.member[key];
