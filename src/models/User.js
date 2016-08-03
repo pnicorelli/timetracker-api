@@ -21,43 +21,51 @@ var User = new Schema({
 
 User.methods.checkPassword = (storedPassword, password, callback )=>{
   let user = this;
-  let argon2i = require('argon2-ffi').argon2i;
-
-  argon2i.verify(storedPassword, password)
-    .then(correct => {
-      if( typeof callback === 'function'){
-        return callback(correct);
-      } else {
-        return correct;
-      }
-    });
-}
+  // let argon2i = require('argon2-ffi').argon2i;
+  //
+  // argon2i.verify(storedPassword, password)
+  //   .then(correct => {
+  //     if( typeof callback === 'function'){
+  //       return callback(correct);
+  //     } else {
+  //       return correct;
+  //     }
+  //   });
+  let bcrypt = require('bcryptjs');
+  bcrypt.compare(password, storedPassword, function(err, res) {
+        if( typeof callback === 'function'){
+          return callback(res);
+        } else {
+          return res;
+        }
+  });
+};
 
 User.pre('save', function(next) {
   let user = this;
   if( !user.password ){
     return next({'message': 'invalid password'});
   }
-  // let credential = require('credential');
-  // let pw = credential();
-  // pw.hash(user.password, function (err, hash) {
-  //   if (err){
-  //      throw err;
-  //    }
-  //   user.password = hash;
-  //   return next();
-  // });
-  let argon2i = require('argon2-ffi').argon2i;
-  let crypto = require('crypto');
-  let Promise = require('bluebird');
-  let randomBytes = Promise.promisify(crypto.randomBytes);
 
-  randomBytes(32)
-    .then(salt => argon2i.hash(user.password, salt))
-    .then(hash => {
-      user.password = hash;
-      return next();
+  // let argon2i = require('argon2-ffi').argon2i;
+  // let crypto = require('crypto');
+  // let Promise = require('bluebird');
+  // let randomBytes = Promise.promisify(crypto.randomBytes);
+  //
+  // randomBytes(32)
+  //   .then(salt => argon2i.hash(user.password, salt))
+  //   .then(hash => {
+  //     user.password = hash;
+  //     return next();
+  //   });
+
+  let bcrypt = require('bcryptjs');
+  bcrypt.genSalt(5, function(err, salt) {
+    bcrypt.hash(user.password, salt, function(err, hash) {
+        user.password = hash;
+        return next();
     });
+  });
 });
 
 module.exports = mongoose.model('User', User);
