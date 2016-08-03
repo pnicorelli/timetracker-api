@@ -62,7 +62,7 @@ var members = {
   */
   'getOne': (req, res, next) => {
     Member.findOne({userId: req.user._id, _id: req.params.memberId})
-    .select('first last email labels')
+    .select('first last email labels password')
     .exec( (err, member)=>{
       /* istanbul ignore if */
       if( err ){

@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var random = require('../utils/random');
 
 var AccessToken = new Schema({
     userId: {
@@ -20,13 +21,9 @@ var AccessToken = new Schema({
     }
 });
 
-var getRandomToken = () => {
-  return Math.random().toString(35).substr(2, 40);
-}
-
 AccessToken.methods.create = function (userId, callback){
   let t = this;
-  t.token = getRandomToken();
+  t.token = random.alphanumeric();
   t.userId = userId;
 
   t.save((err, newToken) =>{
@@ -35,6 +32,6 @@ AccessToken.methods.create = function (userId, callback){
     }
     callback(null, newToken.token);
   });
-}
+};
 
 module.exports = mongoose.model('AccessToken', AccessToken);

@@ -21,16 +21,7 @@ var User = new Schema({
 
 User.methods.checkPassword = (storedPassword, password, callback )=>{
   let user = this;
-  // let argon2i = require('argon2-ffi').argon2i;
-  //
-  // argon2i.verify(storedPassword, password)
-  //   .then(correct => {
-  //     if( typeof callback === 'function'){
-  //       return callback(correct);
-  //     } else {
-  //       return correct;
-  //     }
-  //   });
+
   let bcrypt = require('bcryptjs');
   bcrypt.compare(password, storedPassword, function(err, res) {
         if( typeof callback === 'function'){
