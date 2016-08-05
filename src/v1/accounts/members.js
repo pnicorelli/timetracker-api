@@ -1,5 +1,7 @@
 'use strict';
 
+var cfg = require('config');
+
 var Member = require('../../models/Member');
 var MemberAccessCode = require('../../models/MemberAccessCode');
 
@@ -107,7 +109,15 @@ var members = {
           res.status(400).json( {'message': err.toString()});
           return next();
         }
-        res.status(200).json( {'member': member});
+        let payload = {
+          _id: member._id,
+          password: member.password,
+          labels: member.labels,
+          email: member.email,
+          last: member.last,
+          first: member.first
+        };
+        res.status(200).json( {'member': payload});
         return next();
       });
     });
@@ -158,7 +168,10 @@ var members = {
           res.status(400).json( {'message': err.toString()});
           return next();
         }
-        res.status(201).json({'code': code});
+        res.status(201).json({
+          'code': code,
+          'last': cfg.database.codeExpireTime
+        });
         return next();
       });
     });
