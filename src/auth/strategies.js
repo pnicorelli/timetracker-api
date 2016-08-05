@@ -2,8 +2,9 @@
 
 var passport          = require('passport');
 var BearerStrategy    = require('passport-http-bearer').Strategy;
-var LocalStrategy     = require('passport-local').Strategy;
+var HTTPHeaderTokenStrategy = require('passport-http-header-token').Strategy;
 var User              = require('../models/User');
+var MemberToken              = require('../models/MemberToken');
 var AccessToken       = require('../models/AccessToken');
 
 
@@ -27,19 +28,14 @@ passport.use(new BearerStrategy(
     }
 ));
 
-// passport.use(new LocalStrategy(
-//   function(username, password, next) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) {
-//         return next(err);
-//       }
-//       if (!user) {
-//         return next(null, false);
-//       }
-//       if (!user.verifyPassword(password)) {
-//         return next(null, false);
-//       }
-//       return next(null, user);
-//     });
-//   }
-// ));
+passport.use(new HTTPHeaderTokenStrategy(
+  function(token, done) {
+    MemberToken.findOne({ token: token }).populate('memberId').then( mt => {
+
+      if(!mt){
+        return done(null, false);
+      }
+      return done(null, mt.memberId);
+    });
+  }
+));

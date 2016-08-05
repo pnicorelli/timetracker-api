@@ -1,6 +1,8 @@
 'use strict';
 
 var Member = require('../../models/Member');
+var MemberAccessCode = require('../../models/MemberAccessCode');
+
 var paging = require('../../utils/paging');
 
 var members = {
@@ -130,8 +132,37 @@ var members = {
       res.status(204).send();
       return next();
     });
-  }
+  },
 
+
+
+
+  /*
+  * Express Middleware - Create a member's code for login (it expire in model.createdAt.exprire seconds)
+  *
+  * POST /v1/accounts/members/:memberId/code
+  */
+  'createCode': (req, res, next) => {
+    Member.findOne({userId: req.user._id, _id: req.params.memberId}).exec( (err, member) => {
+      if( err ){
+        res.status(400).json( {'message': err.toString()});
+        return next();
+      }
+      if( !member ){
+        res.status(404).json( {'message': 'member not found'});
+        return next();
+      }
+      let ac = new MemberAccessCode();
+      ac.create(member, (err, code)=>{
+        if( err ){
+          res.status(400).json( {'message': err.toString()});
+          return next();
+        }
+        res.status(201).json({'code': code});
+        return next();
+      });
+    });
+  }
 
 };
 

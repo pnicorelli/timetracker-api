@@ -19,4 +19,6 @@ module.exports = (app) => {
   app.put('/v1/accounts/members/:memberId', auth.bearer(), members.updateOne);
   app.delete('/v1/accounts/members/:memberId', auth.bearer(), members.deleteOne);
 
+  app.post('/v1/accounts/members/:memberId/code', auth.bearer(), members.createCode);
+
 };

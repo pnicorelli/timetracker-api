@@ -69,6 +69,18 @@ describe('User should update and delete a member', () => {
     });
   });
 
+
+  it('as a user I can create a password code for a member', function(next){
+    request
+    .post('localhost:3000/v1/accounts/members/'+theMemberId+'/code')
+    .set('Authorization', 'Bearer ' + carl.token)
+    .end(function(err, res){
+      res.statusCode.should.equal(201);
+      expect(res.body.code).to.have.lengthOf(5);
+      return next();
+    });
+  });
+
   it('as a user I should delete a member', function(next){
     request
     .del('localhost:3000/v1/accounts/members/'+theMemberId)
