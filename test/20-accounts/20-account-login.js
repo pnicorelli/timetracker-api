@@ -63,7 +63,7 @@ describe('As a user I want log-in', () => {
 
   it('should accept a call with valid auth', (next) => {
     request
-    .get('localhost:3000/v1/profile')
+    .get('localhost:3000/v1/accounts/profile')
     .set('Authorization', 'Bearer ' + token)
     .end(function(err, res){
       res.statusCode.should.equal(200);

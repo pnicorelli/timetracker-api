@@ -6,6 +6,9 @@ var auth = require('../auth/auth');
 module.exports = (app) => {
   let accounts = require('../v1/accounts/accounts');
 
+
+  app.get('/v1/accounts/profile', auth.bearer(), accounts.profile);
+
   app.post('/v1/accounts/signup', accounts.signup);
   app.post('/v1/accounts/login', accounts.login);
   // app.post('/v1/accounts/login', passport.local() );

@@ -5,6 +5,23 @@ var AccessToken = require('../../models/AccessToken');
 
 var accounts = {
 
+
+  /*
+  * Express Middleware - DESCRIPTION
+  *
+  * METHOD /v1/endpoint
+  */
+  'profile': (req, res, next) => {
+    let payload = {
+      _id: req.user._id,
+      username: req.user.username
+    };
+    res.json({ 'profile': payload });
+    return next();
+  },
+
+
+
   /*
   * Express Middleware - Signup a new user
   *

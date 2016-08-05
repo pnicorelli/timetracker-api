@@ -64,7 +64,7 @@ describe('Someone can become a user', () => {
 
   it('token should be valid', (next) => {
     request
-      .get('localhost:3000/v1/profile')
+      .get('localhost:3000/v1/accounts/profile')
       .set('Authorization', 'Bearer ' + token)
       .end(function(err, res){
         res.statusCode.should.equal(200);

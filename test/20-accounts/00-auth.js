@@ -46,7 +46,7 @@ describe('User shoud be authenticated', () => {
 
   it('should reject a call without auth', (next) => {
     request
-      .get('localhost:3000/v1/profile')
+      .get('localhost:3000/v1/accounts/profile')
       .end(function(err, res){
         res.statusCode.should.equal(401);
         res.body.should.be.empty;
@@ -57,7 +57,7 @@ describe('User shoud be authenticated', () => {
 
   it('should accept a call with valid auth', (next) => {
     request
-      .get('localhost:3000/v1/profile')
+      .get('localhost:3000/v1/accounts/profile')
       .set('Authorization', 'Bearer ' + token.token)
       .end(function(err, res){
         res.statusCode.should.equal(200);
@@ -69,7 +69,7 @@ describe('User shoud be authenticated', () => {
 
   it('should reject a call with unvalid auth', (next) => {
     request
-      .get('localhost:3000/v1/profile')
+      .get('localhost:3000/v1/accounts/profile')
       .set('Authorization', 'Bearer INVALIDTOKEN')
       .end(function(err, res){
         res.statusCode.should.equal(401);
@@ -81,7 +81,7 @@ describe('User shoud be authenticated', () => {
 
   it('should reject a call with valid token but invalid user', (next) => {
     request
-      .get('localhost:3000/v1/profile')
+      .get('localhost:3000/v1/accounts/profile')
       .set('Authorization', 'Bearer '+invalidToken.token)
       .end(function(err, res){
         res.statusCode.should.equal(401);
