@@ -42,7 +42,7 @@ var members = {
   */
   'loginWithCode': (req, res, next) => {
     let code = (req.body.code)?req.body.code:'';
-    MemberAccessCode.findOne({code: code}).exec( (err, mac)=>{
+    MemberAccessCode.findOne({code: code}).lean().exec( (err, mac)=>{
       if( err ){
         res.status(400).json({ 'message': err.toString() });
         return next();
@@ -51,6 +51,7 @@ var members = {
         res.status(404).json({ 'message': 'member not found' });
         return next();
       }
+      MemberAccessCode.remove({_id: mac._id}).exec();
       Member.findOne({_id: mac.memberId}).exec( (err, member)=>{
         if( err ){
           res.status(400).json({ 'message': err.toString() });
@@ -67,7 +68,6 @@ var members = {
             res.status(400).json({ 'message': err.toString() });
             return next();
           }
-          MemberAccessCode.remove({code: code});
           res.status(201).json({ 'token': token});
           return next();
         });

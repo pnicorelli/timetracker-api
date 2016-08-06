@@ -120,6 +120,18 @@ describe('User should update and delete a member', () => {
     });
   });
 
+  it('as a member I can not reuse the code', function(next){
+    request
+    .post('localhost:3000/v1/members/login/code')
+    .send({
+      code: code
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(404);
+      return next();
+    });
+  });
+
 
 
   it('as a member I should get my profile with new token', function(next){
