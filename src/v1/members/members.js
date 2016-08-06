@@ -67,6 +67,7 @@ var members = {
             res.status(400).json({ 'message': err.toString() });
             return next();
           }
+          MemberAccessCode.remove({code: code});
           res.status(201).json({ 'token': token});
           return next();
         });
