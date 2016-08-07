@@ -52,10 +52,12 @@ describe('User should use timesheet', () => {
     .put('localhost:3000/v1/members/timesheet/'+timesheetId)
     .set('Authorization', 'Token '+token)
     .end(function(err, res){
+
       res.statusCode.should.equal(200);
       res.body.timesheet._id.should.exist;
       res.body.timesheet.from.should.exist;
       res.body.timesheet.status.should.equal('closed');
+      expect( res.body.timesheet.duration ).to.be.at.least(0);
       return next();
     });
   });

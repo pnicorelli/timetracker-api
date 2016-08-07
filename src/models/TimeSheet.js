@@ -29,7 +29,7 @@ var TimeSheet = new Schema({
   },
   duration: {
     type: Number,
-    default: 0
+    default: -1
   },
   status: {
     type: String
@@ -81,7 +81,7 @@ TimeSheet.methods.setClose = function() {
       self.to = new Date;
       self.status = 'closed';
 
-      self.duration =  Math.abs(((self.from - self.to) / 1000));
+      self.duration =  parseInt(((self.from - self.to) / 1000));
 
       self.save((err, newTime) =>{
         if (err) {

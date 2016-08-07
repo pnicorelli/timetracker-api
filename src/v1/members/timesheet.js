@@ -15,7 +15,7 @@ var timesheet = {
   'getAll': (req, res, next) => {
     let pagingParams = paging.getParams(req);
     TimeSheet.find({userId: req.user.userId, memberId: req.user._id})
-    .select('from to status')
+    .select('from to status duration')
     .paginate(pagingParams.page, pagingParams.perPage, (err, result)=>{
       /* istanbul ignore if */
       if( err ){
@@ -40,6 +40,7 @@ var timesheet = {
         _id: ts._id,
         from: ts.from,
         to: ts.to,
+        duration: ts.duration,
         status: ts.status
       }});
       return next();
@@ -57,7 +58,7 @@ var timesheet = {
   */
   'getOne': (req, res, next) => {
     TimeSheet.findOne({_id: req.params.timesheetId, userId: req.user.userId, memberId: req.user._id})
-    .select('from to status createdAt')
+    .select('from to status createdAt duration')
     .exec( (err, time)=>{
       /* istanbul ignore if */
       if( err ){
@@ -92,6 +93,7 @@ var timesheet = {
             _id: timesheet._id,
             from: timesheet.from,
             to: timesheet.to,
+            duration: timesheet.duration,
             status: timesheet.status
           }});
           return next();
