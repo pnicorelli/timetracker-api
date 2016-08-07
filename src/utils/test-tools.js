@@ -8,6 +8,7 @@ var AccessToken = require('../../src/models/AccessToken');
 var Member = require('../../src/models/Member');
 var MemberToken = require('../../src/models/MemberToken');
 var MemberAccessCode = require('../../src/models/MemberAccessCode');
+var TimeSheet = require('../../src/models/TimeSheet');
 
 var testTools = {
 
@@ -68,6 +69,7 @@ testTools.removeUserAccess = ( username ) => {
         Member.remove({userId: u._id}),
         MemberToken.remove({userId: u._id}),
         MemberAccessCode.remove({userId: u._id}),
+        TimeSheet.remove({userId: u._id}),
         AccessToken.remove({userId: u._id}),
         User.remove({_id: u._id})
       ]).then( (result)=>{
