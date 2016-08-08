@@ -40,7 +40,6 @@ var timesheet = {
         _id: ts._id,
         from: ts.from,
         to: ts.to,
-        duration: ts.duration,
         status: ts.status
       }});
       return next();

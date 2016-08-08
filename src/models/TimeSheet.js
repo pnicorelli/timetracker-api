@@ -81,7 +81,7 @@ TimeSheet.methods.setClose = function() {
       self.to = new Date;
       self.status = 'closed';
 
-      self.duration =  parseInt(((self.from - self.to) / 1000));
+      self.duration =  parseInt(((self.to - self.from) / 1000));
 
       self.save((err, newTime) =>{
         if (err) {
