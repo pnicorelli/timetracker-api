@@ -105,6 +105,23 @@ describe('User should use timesheet', () => {
     });
   });
 
+  it('as a member I should read my timesheet with filter', function(next){
+    request
+    .get('localhost:3000/v1/members/timesheet')
+    .set('Authorization', 'Token '+token)
+    .query({
+      'filter': {
+        'status': 'started'
+      }
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      res.body.total.should.equal(1);
+      res.body.data[0].status.should.equal('started');
+      return next();
+    });
+  });
+
   it('as a member I should delete a time', function(next){
     request
     .del('localhost:3000/v1/members/timesheet/'+timesheetId)
