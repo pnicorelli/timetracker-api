@@ -21,7 +21,8 @@ describe('As a user I want log-in', () => {
 
     var testuser = new User({
       username: username,
-      password: password
+      password: password,
+      company: 'just a name'
     });
     testuser.save().then( (err, u) => {
       user = u;

@@ -41,6 +41,10 @@ var accounts = {
       res.status(400).json({ 'message': 'invalid password'});
       return next();
     }
+    if(  !company  ){
+      res.status(400).json({ 'message': 'invalid company'});
+      return next();
+    }
     let newUser = new User({
       username: username,
       password: password,

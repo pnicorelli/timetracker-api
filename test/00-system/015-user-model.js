@@ -16,7 +16,8 @@ describe('Security matters!', () => {
   before( next => {
     var newUser = new User({
       username: 'user-05-015',
-      password: 'mylittlesecret'
+      password: 'mylittlesecret',
+      company: 'justaname'
     });
     newUser.save( (err, u)=>{
       expect(err).to.not.exist;

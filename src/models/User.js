@@ -10,7 +10,8 @@ var User = new Schema({
         required: true
     },
     company: {
-        type: String
+        type: String,
+        required: true
     },
     password: {
         type: String,

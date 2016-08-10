@@ -15,8 +15,9 @@ describe('User shoud be authenticated', () => {
 
   before( next => {
     var testuser = new User({
-      username: 'test',
-      password: 'pippuzzomio'
+      username: 'carl',
+      password: 'yourwayisnotmine',
+      company: 'psyco'
     });
     testuser.save().then( u => {
 

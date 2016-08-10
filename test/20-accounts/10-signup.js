@@ -52,7 +52,8 @@ describe('Someone can become a user', () => {
       .post('localhost:3000/v1/accounts/signup')
       .send({
         username: username,
-        password: 'somesecret'
+        password: 'somesecret',
+        company: 'company name'
       })
       .end(function(err, res){
         res.statusCode.should.equal(201);
