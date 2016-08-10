@@ -78,6 +78,7 @@ describe('User should update and delete a member', () => {
       res.body.member.should.not.be.empty;
       res.body.member.first.should.not.be.empty;
       res.body.member.last.should.not.be.empty;
+      res.body.member.company.should.not.be.empty;
       return next();
     });
   });

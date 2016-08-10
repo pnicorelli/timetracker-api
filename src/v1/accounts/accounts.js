@@ -14,7 +14,8 @@ var accounts = {
   'profile': (req, res, next) => {
     let payload = {
       _id: req.user._id,
-      username: req.user.username
+      username: req.user.username,
+      company: req.user.company
     };
     res.json({ 'profile': payload });
     return next();
@@ -30,6 +31,7 @@ var accounts = {
   'signup': (req, res, next) => {
     let username = (req.body.username)?req.body.username:false;
     let password = (req.body.password)?req.body.password:false;
+    let company = (req.body.company)?req.body.company:false;
 
     if(  !username  ){
       res.status(400).json({ 'message': 'invalid username'});
@@ -41,7 +43,8 @@ var accounts = {
     }
     let newUser = new User({
       username: username,
-      password: password
+      password: password,
+      company: company
     });
     newUser.save( (err, u)=>{
 

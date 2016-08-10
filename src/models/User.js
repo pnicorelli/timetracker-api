@@ -9,6 +9,9 @@ var User = new Schema({
         unique: true,
         required: true
     },
+    company: {
+        type: String
+    },
     password: {
         type: String,
         required: true

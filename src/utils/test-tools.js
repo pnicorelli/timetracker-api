@@ -31,7 +31,8 @@ testTools.createUserAccess = function( username ){
     username = ( username ) ? username: testTools._username();
     let user = new User({
       username: username,
-      password: 'secret'
+      password: 'secret',
+      company: 'psyco'
     });
     user.save( (err, u) => {
       /* istanbul ignore if */

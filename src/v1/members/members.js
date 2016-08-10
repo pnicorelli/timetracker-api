@@ -81,13 +81,28 @@ var members = {
   * POST /v1/members/login/password
   */
   'profile': (req, res, next) => {
-    let payload = {
-      first: req.user.first,
-      last: req.user.last,
-      email: req.user.email
-    };
-    res.status(200).json({'member': payload});
-    return next();
+    Member.find({_id: req.user._id})
+      .populate('userId', 'company')
+      .exec(
+        (err, result) =>{
+          if( err ){
+            res.status(400).json({ 'message': err.toString() });
+            return next();
+          }
+          if( !result ){
+            res.status(404).json({ 'message': 'member not found' });
+            return next();
+          }
+          let payload = {
+            first: result[0].first,
+            last: result[0].last,
+            email: result[0].email,
+            company: result[0].userId.company
+          };
+          res.status(200).json({'member': payload});
+          return next();
+        }
+      );
   }
 
 };
