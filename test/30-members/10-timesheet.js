@@ -99,6 +99,25 @@ describe('User should use timesheet', () => {
       res.statusCode.should.equal(200);
       res.body.data[0]._id.should.exist;
       res.body.data[1]._id.should.exist;
+      res.body.data[1].status.should.equal('closed');
+      res.body.data[0].status.should.equal('started');
+      return next();
+    });
+  });
+
+  it('as a member I should sort my timesheet', function(next){
+    request
+    .get('localhost:3000/v1/members/timesheet')
+    .set('Authorization', 'Token '+token)
+    .query({
+      sort: {
+        'from': 1
+      }
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      res.body.data[0]._id.should.exist;
+      res.body.data[1]._id.should.exist;
       res.body.data[0].status.should.equal('closed');
       res.body.data[1].status.should.equal('started');
       return next();

@@ -15,16 +15,23 @@ var timesheet = {
   'getAll': (req, res, next) => {
     let pagingParams = paging.getParams(req);
     let filterParams = (req.query.filter)?req.query.filter:null;
+    let sortingParams = (req.query.sort)?req.query.sort: { 'from': -1};
 
     let query = {};
     for( let field in filterParams){
       query[field] = filterParams[field];
+    }
+
+    let sort = {};
+    for( let field in sortingParams){
+      sort[field] = sortingParams[field];
     }
     query['userId'] = req.user.userId;
     query['memberId'] = req.user._id;
 
     TimeSheet.find(query)
     .select('from to status duration')
+    .sort(sort)
     .paginate(pagingParams.page, pagingParams.perPage, (err, result)=>{
       /* istanbul ignore if */
       if( err ){
