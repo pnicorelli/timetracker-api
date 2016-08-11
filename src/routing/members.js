@@ -19,4 +19,8 @@ module.exports = (app) => {
   app.get('/v1/members/timesheet/:timesheetId', auth.member(), timesheet.getOne);
   app.put('/v1/members/timesheet/:timesheetId', auth.member(), timesheet.closeOne);
   app.delete('/v1/members/timesheet/:timesheetId', auth.member(), timesheet.delete);
+
+  let suggestions = require('../v1/members/suggestions');
+
+  app.post('/v1/members/suggestions', auth.member(), suggestions.create);
 };
