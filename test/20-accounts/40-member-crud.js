@@ -25,12 +25,12 @@ describe('User should update and delete a member', () => {
 
   it('as a user I should list all my members', function(next){
     request
-    .get('localhost:3000/v1/accounts/members?perPage='+carl.members)
+    .get('localhost:3000/v1/accounts/members?perPage='+carl.members.length)
     .set('Authorization', 'Bearer ' + carl.token)
     .end(function(err, res){
       res.statusCode.should.equal(200);
-      res.body.total.should.equal(carl.members);
-      res.body.perPage.should.equal(carl.members);
+      res.body.total.should.equal(carl.members.length);
+      res.body.perPage.should.equal(carl.members.length);
       theMemberId = res.body.data[0]._id;
       return next();
     });

@@ -24,4 +24,8 @@ module.exports = (app) => {
 
   app.post('/v1/accounts/members/:memberId/code', auth.bearer(), members.createCode);
 
+  let timesheet = require('../v1/accounts/timesheet');
+
+  app.get('/v1/accounts/timesheet', auth.bearer(), timesheet.getAll);
+
 };
