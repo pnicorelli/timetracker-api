@@ -25,7 +25,10 @@ describe('User should manage timesheet', () => {
         mTimesheet = result;
         TimeSheet.findOne({memberId: mTimesheet[0].memberId}).exec( (err, t) => {
           testDate = t.from;
-          return next();
+          t.status = 'started';
+          t.save( (err, xxx)=>{
+            return next();
+          });
         });
       });
     });

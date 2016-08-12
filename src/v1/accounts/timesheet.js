@@ -24,7 +24,7 @@ var timesheet = {
     }
 
     if(req.query.to){
-      query['to'] = { '$lte': new Date(req.query.to) };
+      query['$or'] = [ { 'to': {'$lte': new Date(req.query.to)} }, { 'to': null} ];
     }
 
     if(req.query.memberId){
@@ -33,9 +33,6 @@ var timesheet = {
 
     if(req.query.status){
       query['status'] = req.query.status;
-      if( query['status'] === 'complete'){
-        unset(query['to']);
-      }
     }
 
     let sort = {};
