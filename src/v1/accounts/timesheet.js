@@ -33,6 +33,9 @@ var timesheet = {
 
     if(req.query.status){
       query['status'] = req.query.status;
+      if( query['status'] === 'complete'){
+        unset(query['to']);
+      }
     }
 
     let sort = {};
