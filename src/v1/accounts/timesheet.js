@@ -21,6 +21,9 @@ var timesheet = {
 
     if(req.query.from){
       query['from'] = { '$gte': new Date(req.query.from) };
+      if(req.query.to){
+        query['from'] = { '$gte': new Date(req.query.from), '$lte': new Date(req.query.to) };
+      }
     }
 
     if(req.query.to){
