@@ -18,6 +18,13 @@ var timesheet = {
     let sortingParams = (req.query.sort)?req.query.sort: { 'from': -1};
 
     let query = {};
+    let populate = '';
+    let populateFields = '';
+
+    if(req.query.withMembers){
+      populate = 'memberId',
+      populateFields = 'first last email';
+    }
 
     if(req.query.from){
       query['from'] = { '$gte': new Date(req.query.from) };
@@ -46,6 +53,7 @@ var timesheet = {
 
     TimeSheet.find(query)
     .select('memberId from to status duration')
+    .populate(populate, populateFields)
     .sort(sort)
     .paginate(pagingParams.page, pagingParams.perPage, (err, result)=>{
       /* istanbul ignore if */

@@ -2,6 +2,8 @@
 
 var chai = require('chai');
 chai.should();
+var expect = require('chai').expect;
+
 var request = require('superagent');
 var Promise = require('bluebird');
 
@@ -61,6 +63,21 @@ describe('User should manage timesheet', () => {
     });
   });
 
+  it('as a user I should read timesheet populated', function(next){
+    request
+    .get('localhost:3000/v1/accounts/timesheet')
+    .set('Authorization', 'Bearer ' + carl.token)
+    .query({
+      withMembers: true
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      expect( res.body.data[0].memberId ).to.be.an('object');
+      expect( res.body.data[0].memberId.first ).to.be.a('string');
+      return next();
+    });
+  });
+
   it('as a user I should read a member timesheet', function(next){
     request
     .get('localhost:3000/v1/accounts/timesheet')
@@ -71,6 +88,7 @@ describe('User should manage timesheet', () => {
     .end(function(err, res){
       res.statusCode.should.equal(200);
       res.body.data[0].memberId.should.equal( mTimesheet[0].memberId.toString() );
+      expect( res.body.data[0].memberId ).to.be.a('string');
       res.body.total.should.equal( mTimesheet[0].timesheetIds.length );
       return next();
     });
