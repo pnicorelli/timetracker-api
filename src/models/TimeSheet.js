@@ -35,8 +35,7 @@ var TimeSheet = new Schema({
     type: String
     // started: member begin a job
     // complete: member finish a job
-    // moderate: member force `from` and `to`, to be checked
-    // invalid: account mark as invalid
+    // afterwards: member insert `from` and `to` afterwards
   }
 });
 

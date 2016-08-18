@@ -13,7 +13,7 @@ var MemberAccessCode = require('../../src/models/MemberAccessCode');
 
 var carl, memberPassword, token, code;
 
-describe('User should update and delete a member', () => {
+describe('Member should login', () => {
 
   before( next => {
     Promise.all([

@@ -140,7 +140,53 @@ var timesheet = {
       res.status(400).json( {'message': err.toString()});
       return next();
     });
-  }
+  },
+
+
+    /*
+    * Express Middleware - Read TimeSheet
+    *
+    * POST /v1/members/afterwards
+    */
+    'afterwards': (req, res, next) => {
+      let newTs = new TimeSheet;
+      let fromDate = new Date( req.body.from );
+      let toDate = new Date( req.body.to );
+      if ( isNaN( fromDate.getTime() ) ) {
+        res.status(400).json( {'message': 'from field is not a valid date'});
+        return next();
+      }
+      if ( isNaN( toDate.getTime() ) ) {
+        res.status(400).json( {'message': 'to field is not a valid date'});
+        return next();
+      }
+      let duration = parseInt(((toDate - fromDate) / 1000));
+      if( duration < 0){
+        res.status(400).json( {'message': 'are you a time traveler?'});
+        return next();
+      }
+      newTs.memberId = req.user._id;
+      newTs.userId = req.user.userId;
+      newTs.status = 'afterwards';
+      newTs.from = fromDate;
+      newTs.to = toDate;
+      newTs.duration = duration;
+
+      newTs.save( (err, ts) =>{
+        if( err ){
+          res.status(400).json( { 'message': err.toString()} );
+          return next();
+        }
+        res.status(201).json( { 'timesheet': {
+          _id: ts._id,
+          from: ts.from,
+          to: ts.to,
+          status: ts.status
+        }});
+        return next();
+      });
+
+    }
 
 };
 

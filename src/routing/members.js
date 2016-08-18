@@ -20,6 +20,8 @@ module.exports = (app) => {
   app.put('/v1/members/timesheet/:timesheetId', auth.member(), timesheet.closeOne);
   app.delete('/v1/members/timesheet/:timesheetId', auth.member(), timesheet.delete);
 
+  app.post('/v1/members/afterwards', auth.member(), timesheet.afterwards);
+
   let suggestions = require('../v1/members/suggestions');
 
   app.post('/v1/members/suggestions', auth.member(), suggestions.create);

@@ -14,7 +14,7 @@ var Suggestion = require('../../src/models/Suggestion');
 
 var carl, token;
 
-describe('User should use timesheet', () => {
+describe('Member should suggest something', () => {
 
   before( next => {
     Promise.all([

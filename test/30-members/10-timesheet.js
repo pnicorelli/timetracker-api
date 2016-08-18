@@ -14,7 +14,7 @@ var TimeSheet = require('../../src/models/TimeSheet');
 
 var carl, token, timesheetId, timesheetId2;
 
-describe('User should use timesheet', () => {
+describe('Member should use timesheet', () => {
 
   before( next => {
     Promise.all([
