@@ -78,6 +78,9 @@ TimeSheet.methods.setClose = function(endDate) {
         return reject('invalid from');
       }
       self.to = ( endDate )?endDate: new Date;
+      if( self.to > new Date){
+        return reject('future is not predictable');
+      }
       self.status = 'closed';
 
       self.duration =  parseInt(((self.to - self.from) / 1000));

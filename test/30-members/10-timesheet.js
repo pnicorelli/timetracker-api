@@ -86,6 +86,21 @@ describe('Member should use timesheet', () => {
     });
   });
 
+  it('as a member I should not close a time with future date', function(next){
+    let newDate = new Date();
+    newDate.setHours(newDate.getHours() + 2);
+    request
+    .put('localhost:3000/v1/members/timesheet/'+openTimesheetId)
+    .set('Authorization', 'Token '+token)
+    .send({
+      to: newDate
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(400);
+      return next();
+    });
+  });
+
   it('as a member I should close a time with past date', function(next){
     let newDate = new Date();
     newDate.setHours(newDate.getHours() - 22);
