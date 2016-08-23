@@ -12,7 +12,7 @@ var Member = require('../../src/models/Member');
 var MemberToken = require('../../src/models/MemberToken');
 var TimeSheet = require('../../src/models/TimeSheet');
 
-var carl, token, timesheetId, timesheetId2;
+var carl, token, timesheetId, timesheetId2, openTimesheetId;
 
 describe('Member should use timesheet', () => {
 
@@ -27,7 +27,16 @@ describe('Member should use timesheet', () => {
         mt.create( member, (err, newToken)=>{
           expect(err).to.be.null;
           token = newToken;
-          return next();
+          let ts = new TimeSheet();
+          let d = new Date();
+          ts.userId = carl.userId;
+          ts.memberId = member._id;
+          ts.status = 'started';
+          ts.from = d.setHours(d.getHours() - 24);
+          ts.save( (err, res)=>{
+            openTimesheetId = res._id;
+            return next();
+          });
         });
       });
     });
@@ -58,6 +67,40 @@ describe('Member should use timesheet', () => {
       res.body.timesheet.from.should.exist;
       res.body.timesheet.status.should.equal('closed');
       expect( res.body.timesheet.duration ).to.be.at.least(0);
+      return next();
+    });
+  });
+
+  it('as a member I should not close a time with wrong date', function(next){
+    let newDate = new Date();
+    newDate.setHours(newDate.getHours() - 25);
+    request
+    .put('localhost:3000/v1/members/timesheet/'+openTimesheetId)
+    .set('Authorization', 'Token '+token)
+    .send({
+      to: newDate
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(400);
+      return next();
+    });
+  });
+
+  it('as a member I should close a time with past date', function(next){
+    let newDate = new Date();
+    newDate.setHours(newDate.getHours() - 22);
+    request
+    .put('localhost:3000/v1/members/timesheet/'+openTimesheetId)
+    .set('Authorization', 'Token '+token)
+    .send({
+      to: newDate
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(200);
+      res.body.timesheet._id.should.exist;
+      res.body.timesheet.from.should.exist;
+      res.body.timesheet.status.should.equal('closed');
+      expect( res.body.timesheet.duration ).to.be.within(7200, 7210);
       return next();
     });
   });
@@ -116,10 +159,10 @@ describe('Member should use timesheet', () => {
     })
     .end(function(err, res){
       res.statusCode.should.equal(200);
-      res.body.data[0]._id.should.exist;
       res.body.data[1]._id.should.exist;
-      res.body.data[0].status.should.equal('closed');
-      res.body.data[1].status.should.equal('started');
+      res.body.data[2]._id.should.exist;
+      res.body.data[1].status.should.equal('closed');
+      res.body.data[2].status.should.equal('started');
       return next();
     });
   });

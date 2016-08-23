@@ -68,7 +68,7 @@ TimeSheet.methods.start = function(member) {
 };
 
 
-TimeSheet.methods.setClose = function() {
+TimeSheet.methods.setClose = function(endDate) {
   let self = this;
   return new Promise(
     (resolve, reject)=>{
@@ -77,11 +77,13 @@ TimeSheet.methods.setClose = function() {
       if (!self.from) {
         return reject('invalid from');
       }
-      self.to = new Date;
+      self.to = ( endDate )?endDate: new Date;
       self.status = 'closed';
 
       self.duration =  parseInt(((self.to - self.from) / 1000));
-
+      if( self.duration < 0 ){
+        return reject('invalid range date');
+      }
       self.save((err, newTime) =>{
         if (err) {
           return reject(err);

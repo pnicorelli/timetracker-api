@@ -102,7 +102,8 @@ var timesheet = {
         res.status(404).json( {'message': 'time not found'});
         return next();
       }
-      time.setClose()
+      let endDate = (req.body.to)?req.body.to:null;
+      time.setClose(endDate)
         .then( ( timesheet )=>{
           res.status(200).json( {'timesheet': {
             _id: timesheet._id,
