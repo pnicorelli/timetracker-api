@@ -3,8 +3,9 @@
 var User = require('../../models/User');
 var AccessToken = require('../../models/AccessToken');
 
-var accounts = {
+var testTools = require('../../utils/test-tools');
 
+var accounts = {
 
   /*
   * Express Middleware - DESCRIPTION
@@ -112,10 +113,28 @@ var accounts = {
         }
       });
     });
-  }
+  },
+
+  /*
+  * Express Middleware - DESCRIPTION
+  *
+  * DELETE  /v1/accounts/delete
+  */
+  'remove': (req, res, next) => {
+    testTools.removeUserAccess(req.user.username)
+    .then(
+      (result)=>{
+        res.status(204).send();
+        return next();
+      },
+      (reject)=>{
+        res.status(400).json({ 'message': reject.toString() });
+        return next();
+      });
+    }
 
 
-};
+  };
 
 
-module.exports = accounts;
+  module.exports = accounts;

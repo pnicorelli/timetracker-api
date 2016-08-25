@@ -65,6 +65,9 @@ testTools.removeUserAccess = ( username ) => {
       reject( 'username mandatory' );
     }
     User.findOne({username: username}).then( (u)=>{
+      if( !u ){
+        return reject('user not found');
+      }
       Promise.all([
         Member.remove({userId: u._id}),
         MemberToken.remove({userId: u._id}),
