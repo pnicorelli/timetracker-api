@@ -117,6 +117,25 @@ describe('Member should use timesheet defered', () => {
     });
   });
 
+  it('as a member I should not insert an future time', function(next){
+    let newFrom = new Date();
+    newFrom.setHours( newFrom.getHours()-1);
+    let newTo = new Date();
+    newTo.setHours( newTo.getHours()+1);
+
+    request
+    .post('localhost:3000/v1/members/afterwards')
+    .set('Authorization', 'Token '+token)
+    .send({
+      from: newFrom,
+      to: newTo
+    })
+    .end(function(err, res){
+      res.statusCode.should.equal(400);
+      return next();
+    });
+  });
+
 
 
 

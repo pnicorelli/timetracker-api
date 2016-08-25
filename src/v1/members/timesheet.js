@@ -161,6 +161,10 @@ var timesheet = {
         res.status(400).json( {'message': 'to field is not a valid date'});
         return next();
       }
+      if( toDate > new Date){
+        res.status(400).json( {'message': 'future is not predictable'});
+        return next();
+      }
       let duration = parseInt(((toDate - fromDate) / 1000));
       if( duration < 0){
         res.status(400).json( {'message': 'are you a time traveler?'});
