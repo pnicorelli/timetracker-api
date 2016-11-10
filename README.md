@@ -22,7 +22,7 @@ API Server for time-tracking dirty jobs
 
 ### Docs
 
-On [Bitbucket wiki](https://bitbucket.org/pnicorelli/timetracker-api/wiki/Home)
+On [wiki](https://github.com/pnicorelli/timetracker-api/wiki/Home)
 
 ### Development
 
